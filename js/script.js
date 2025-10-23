@@ -552,6 +552,7 @@ function flipScreen() {
 
 function cloneButton() {
     const button = document.getElementById("useless-button");
+    setTimeout(() => {}, 500);
     const clone = button.cloneNode(true); // Copy HTML only
     clone.classList.add("button-clone");   // Apply the CSS class for clones
 
@@ -564,7 +565,26 @@ function cloneButton() {
     const scale = Math.random() * 0.5 + 0.8; // random size
     const rotation = 0;                       // rotation 0
     clone.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-
+    clone.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stop the click from registering on the document body
+            
+            // Execute the failed click logic (similar to a missed click)
+            failedClicks++;
+            const randomFail = failedClickMessages[Math.floor(Math.random() * failedClickMessages.length)];
+            updateCounter(`— ${randomFail} (Clone)`);
+            
+            // Remove the clone after it's clicked
+            clone.remove();
+            
+            // Play fail sound occasionally (using the existing logic structure)
+            if (failedClicks % (impossibleMode ? 5 : 10) === 0 && userInteracted) {
+                 if (failSound) {
+                    failSound.volume = masterVolume;
+                    failSound.currentTime = 0;
+                    failSound.play().catch(() => {});
+                 }
+            }
+        }, { once: true });
     document.body.appendChild(clone);
 
     // Remove clone after a short duration

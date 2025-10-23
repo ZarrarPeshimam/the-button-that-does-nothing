@@ -1346,7 +1346,6 @@ body.flipped {
 /* 4. Emoji Rain Effect */
 .falling-emoji {
     position: fixed;
-    top: -5%; /* Start slightly above the screen */
     z-index: 10000; /* Ensure they appear over everything */
     font-size: 3em; 
     pointer-events: none; /* Allow clicks to pass through */
